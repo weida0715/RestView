@@ -132,6 +132,11 @@ main {
     backdrop-filter: blur(8px); /* More subtle blur */
 }
 
+.listings-section {
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
 .hero-panel {
     padding: 3rem 2rem; /* Increased padding */
     margin-bottom: 2rem; /* More spacing */
