@@ -229,7 +229,7 @@ main {
 
 .search-form {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr auto;
+    grid-template-columns: 1.5fr 1fr 1fr auto auto;
     gap: 1rem;
     align-items: end;
     background: var(--panel); /* Use panel background for search form */
@@ -238,6 +238,12 @@ main {
     box-shadow: var(--shadow);
     border: 1px solid var(--line);
     backdrop-filter: blur(8px);
+}
+
+.search-form .button-primary,
+.search-form .button-secondary {
+    min-width: 8rem;
+    white-space: nowrap;
 }
 
 
@@ -802,6 +808,11 @@ footer {
     }
     .search-form {
         grid-template-columns: 1fr; /* Single column for mobile */
+    }
+    .search-form .button-primary,
+    .search-form .button-secondary {
+        width: 100%;
+        min-width: 0;
     }
     .hero-panel {
         padding: 2.5rem 1.5rem;
