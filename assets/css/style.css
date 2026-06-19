@@ -525,6 +525,7 @@ form button:hover {
 }
 
 .reviews-section {
+    padding: 2rem;
     background: var(--bg); /* Dark background for consistency */
 }
 
