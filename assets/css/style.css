@@ -251,8 +251,11 @@ main {
 
 .search-form .button-primary,
 .search-form .button-secondary {
+    width: 8rem;
     min-width: 8rem;
+    height: 3.25rem;
     white-space: nowrap;
+    padding-inline: 0;
 }
 
 
