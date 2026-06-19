@@ -2,11 +2,17 @@
 
 ## 1. System Explanation
 
-**RestView** is a restaurant listing and review system built using PHP, HTML, CSS, JavaScript, SQL, and MySQL through XAMPP.
+**RestView** is a restaurant listing and review system built with PHP, HTML, CSS, JavaScript, SQL, and MySQL.
 
-The system allows users to browse restaurants, search for restaurants by name, view restaurant details, submit reviews, and edit restaurant information.
+The system lets users:
 
-The system uses a MySQL database named `fooddb`. PHP connects to the database using PDO. PDO prepared statements are used for database operations to improve security and prevent SQL injection.
+- browse restaurant listings
+- search restaurants by name
+- view restaurant details
+- submit reviews
+- edit restaurant information
+
+RestView uses a MySQL database named `fooddb`. PHP connects to the database through PDO, and prepared statements are used for database operations to improve security and reduce the risk of SQL injection.
 
 ## 2. System Objectives
 
@@ -167,26 +173,24 @@ The delete action should use POST for safer data handling.
 
 ## 7. Setup Instructions
 
-The project is developed and deployed locally on a Windows machine using XAMPP.
+Follow these steps to run RestView locally with XAMPP.
 
 ### Step 1: Install XAMPP
 
-Download and install XAMPP for Windows.
-
-After installation, open the XAMPP Control Panel.
-
-Start the following services:
+1. Download and install XAMPP for Windows.
+2. Open the XAMPP Control Panel.
+3. Start these services:
 
 ```text
 Apache
 MySQL
 ```
 
-### Step 2: Move Project Folder
+### Step 2: Place the Project Folder
 
 Copy the `RestView` folder into the XAMPP `htdocs` directory.
 
-Example path:
+Example:
 
 ```text
 C:\xampp\htdocs\RestView
@@ -194,31 +198,31 @@ C:\xampp\htdocs\RestView
 
 ### Step 3: Open phpMyAdmin
 
-Open a browser and go to:
+Go to:
 
 ```text
 http://localhost/phpmyadmin
 ```
 
-### Step 4: Create Database
+### Step 4: Create the Database
 
-Create a new database named:
+Create a database named:
 
 ```text
 fooddb
 ```
 
-### Step 5: Import SQL File
+### Step 5: Import the SQL File
 
-Import the database file located at:
+Import this file:
 
 ```text
 RestView/database/fooddb.sql
 ```
 
-This will create the required tables and sample restaurant records.
+This creates the required tables and sample restaurant data.
 
-### Step 6: Configure Database Connection
+### Step 6: Check the Database Connection
 
 Open:
 
@@ -226,7 +230,7 @@ Open:
 includes/db.php
 ```
 
-Make sure the database settings are correct for XAMPP:
+Confirm the settings match your local XAMPP setup:
 
 ```php
 $host = "localhost";
@@ -235,17 +239,17 @@ $username = "root";
 $password = "";
 ```
 
-XAMPP usually uses `root` as the username and an empty password by default.
+XAMPP usually uses `root` with an empty password by default.
 
 ### Step 7: Run the Project
 
-Open the browser and go to:
+Open:
 
 ```text
 http://localhost/RestView/index.php
 ```
 
-The RestView homepage should appear.
+The RestView homepage should load in the browser.
 
 ## 8. How to Use the System
 

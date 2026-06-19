@@ -25,6 +25,11 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Sample Data for users
+INSERT INTO users (name, email, password, role) VALUES
+('Admin User', 'admin@restview.test', '$2y$12$e5gQ8GntQS1FhL95dr2Y0uMaGSb968eYVtawMyT3jd7cYOp8YZA3S', 'admin'),
+('Demo User', 'user@restview.test', '$2y$12$sZVMbEs/MS88aLqK0KnJW.rKl/1XKbTd38NsQBhbdfhqdUFzjw3G6', 'user');
+
 CREATE TABLE IF NOT EXISTS reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     restaurant_id INT NOT NULL,

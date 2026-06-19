@@ -1,5 +1,7 @@
 # RestView Features Documentation
 
+This document lists the main features available in RestView and explains where each feature is implemented.
+
 ## Feature 1: Database Connection Using PDO
 
 | Item           | Details                                                                                                       |
@@ -8,7 +10,7 @@
 | File           | `includes/db.php`                                                                                             |
 | Page           | All pages that require database access                                                                        |
 | How to Perform | Include `includes/db.php` in PHP pages that need database access.                                             |
-| Description    | Connects the system to the `fooddb` MySQL database using PDO. Error handling is enabled using exception mode. |
+| Description    | Connects the system to the `fooddb` MySQL database using PDO with exception-based error handling. |
 
 ## Feature 2: Restaurant Listing
 
@@ -28,7 +30,7 @@
 | File           | `index.php`, `assets/images/`                                                                 |
 | Page           | Homepage                                                                                      |
 | How to Perform | View the homepage after restaurant records and image paths are available in the database.     |
-| Description    | Shows restaurant images or thumbnails to make the listing page more visual and user-friendly. |
+| Description    | Shows restaurant images or thumbnails to make the listing page more visual and easier to scan. |
 
 ## Feature 4: Restaurant Details Page
 
@@ -48,7 +50,7 @@
 | File           | `index.php`                                                                                                                                         |
 | Page           | Homepage                                                                                                                                            |
 | How to Perform | Enter a restaurant name in the search bar and submit.                                                                                               |
-| Description    | Searches restaurants by name using SQL `LIKE` with a PDO prepared statement. Matching results are displayed as clickable restaurant cards or links. |
+| Description    | Searches restaurants by name using SQL `LIKE` with a PDO prepared statement. Matching results are shown as clickable restaurant cards or links. |
 
 ## Feature 6: Cuisine Filter
 
@@ -68,7 +70,7 @@
 | File           | `index.php`                                                                                                                       |
 | Page           | Homepage                                                                                                                          |
 | How to Perform | Select sorting option such as A-Z or rating.                                                                                      |
-| Description    | Allows users to sort restaurants alphabetically or by rating. This improves usability and supports enhanced search functionality. |
+| Description    | Allows users to sort restaurants alphabetically or by rating. This improves usability and supports better search browsing. |
 
 ## Feature 8: Submit Review Form
 
@@ -78,7 +80,7 @@
 | File           | `submit-review.php`                                                                                            |
 | Page           | Submit review page                                                                                             |
 | How to Perform | Fill in the review form and click submit.                                                                      |
-| Description    | Allows users to submit a review by entering restaurant name, customer name, email, rating, and review message. |
+| Description    | Allows users to submit a review by entering the restaurant name, customer name, email, rating, and review message. |
 
 ## Feature 9: JavaScript Form Validation
 
@@ -98,7 +100,7 @@
 | File           | `submit-review.php`                                                                                                        |
 | Page           | Submit review page                                                                                                         |
 | How to Perform | Submit the review form. PHP validates the input before inserting into the database.                                        |
-| Description    | Ensures that required fields, valid email, and valid rating are checked on the server side even if JavaScript is bypassed. |
+| Description    | Ensures that required fields, a valid email, and a valid rating are checked on the server side even if JavaScript is bypassed. |
 
 ## Feature 11: Insert Review into Database
 
@@ -118,7 +120,7 @@
 | File           | `submit-review.php`                                                                                                       |
 | Page           | Submit review page                                                                                                        |
 | How to Perform | Submit a valid review form.                                                                                               |
-| Description    | Displays the submitted review information including restaurant name, customer name, email, rating, review, and timestamp. |
+| Description    | Displays the submitted review information, including restaurant name, customer name, email, rating, review, and timestamp. |
 
 ## Feature 13: Display Reviews on Restaurant Details Page
 
@@ -158,7 +160,7 @@
 | File           | `edit-restaurant.php`                                                                                                          |
 | Page           | Edit restaurant page                                                                                                           |
 | How to Perform | Successfully update restaurant information.                                                                                    |
-| Description    | Redirects the user back to the restaurant details page after the update is completed. This prevents duplicate form submission. |
+| Description    | Redirects the user back to the restaurant details page after the update is completed. This helps prevent duplicate form submission. |
 
 ## Feature 17: Delete Review
 
