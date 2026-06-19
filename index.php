@@ -132,6 +132,7 @@ try {
             </div>
 
             <button type="submit" class="button-primary">Search</button>
+            <a class="button-secondary" href="index.php">Reset</a>
         </form>
     </div>
 </section>

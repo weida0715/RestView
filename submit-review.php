@@ -2,7 +2,6 @@
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_login();
-require_once 'includes/header.php';
 
 $restaurant_id = $_GET['restaurant_id'] ?? null;
 $restaurant_name = $_GET['restaurant_name'] ?? '';
@@ -51,18 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $pdo->prepare("INSERT INTO reviews (restaurant_id, restaurant_name, user_id, customer_name, email, rating, review) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$restaurant_id, $restaurant_name, $currentUser['id'], $customer_name, $email, $rating, $review_message]);
-            $success_message = "Your review has been submitted successfully!";
-            // Clear form fields after successful submission
-            $customer_name = '';
-            $email = '';
-            $rating = '';
-            $review_message = '';
+            header("Location: restaurant-details.php?id=" . urlencode($restaurant_id) . "&status=review_submitted");
+            exit;
         } catch (PDOException $e) {
             $errors[] = "Error submitting review: " . htmlspecialchars($e->getMessage());
         }
     }
 }
 ?>
+
+<?php require_once 'includes/header.php'; ?>
 
 <section class="form-page-shell">
     <div class="section-heading">
@@ -77,10 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p class="error-message"><?= htmlspecialchars($error) ?></p>
                 <?php endforeach; ?>
             </div>
-        <?php endif; ?>
-
-        <?php if (!empty($success_message)): ?>
-            <p class="success-message"><?= htmlspecialchars($success_message) ?></p>
         <?php endif; ?>
 
         <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant_id) ?>">
