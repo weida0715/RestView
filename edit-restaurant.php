@@ -63,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         try {
-            $stmt = $pdo->prepare("UPDATE restaurants SET name = ?, cuisine_type = ?, description = ?, opening_hours = ?, image = ? WHERE id = ?");
-            $stmt->execute([$name, $cuisine_type, $description, $opening_hours, $image, $restaurant_id]);
+            $stmt = $pdo->prepare("UPDATE restaurants SET name = ?, cuisine_type = ?, location = ?, description = ?, opening_hours = ?, image = ? WHERE id = ?");
+            $stmt->execute([$name, $cuisine_type, $location, $description, $opening_hours, $image, $restaurant_id]);
             $success_message = "Restaurant information updated successfully!";
             header("Location: restaurant-details.php?id=" . urlencode($restaurant_id));
             exit;

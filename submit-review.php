@@ -1,11 +1,14 @@
 <?php
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
-require_login();
 
 $restaurant_id = $_GET['restaurant_id'] ?? null;
 $restaurant_name = $_GET['restaurant_name'] ?? '';
 $word_limit = 500;
+$customer_name = is_logged_in() ? (current_user()['name'] ?? '') : '';
+$email = is_logged_in() ? (current_user()['email'] ?? '') : '';
+$rating = '';
+$review_message = '';
 
 $errors = [];
 $success_message = '';
@@ -13,12 +16,12 @@ $success_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $restaurant_id = $_POST['restaurant_id'] ?? null;
     $restaurant_name = trim($_POST['restaurant_name'] ?? '');
-    $currentUser = current_user();
-    $customer_name = trim($currentUser['name'] ?? '');
-    $email = trim($currentUser['email'] ?? '');
+    $customer_name = trim($_POST['customer_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $rating = $_POST['rating'] ?? '';
     $review_message = trim($_POST['review_message'] ?? '');
     $review_word_count = str_word_count($review_message);
+    $currentUser = is_logged_in() ? current_user() : null;
 
     // PHP Validation
     if (empty($restaurant_id)) {
@@ -49,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         try {
             $stmt = $pdo->prepare("INSERT INTO reviews (restaurant_id, restaurant_name, user_id, customer_name, email, rating, review) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$restaurant_id, $restaurant_name, $currentUser['id'], $customer_name, $email, $rating, $review_message]);
+            $stmt->execute([$restaurant_id, $restaurant_name, $currentUser['id'] ?? null, $customer_name, $email, $rating, $review_message]);
             header("Location: restaurant-details.php?id=" . urlencode($restaurant_id) . "&status=review_submitted");
             exit;
         } catch (PDOException $e) {
@@ -80,10 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="hidden" name="restaurant_name" value="<?= htmlspecialchars($restaurant_name) ?>">
 
         <label for="customer_name">Your Name:</label>
-        <input type="text" id="customer_name" value="<?= htmlspecialchars(current_user()['name'] ?? '') ?>" disabled>
+        <input type="text" id="customer_name" name="customer_name" value="<?= htmlspecialchars($customer_name ?? (current_user()['name'] ?? '')) ?>" required>
 
         <label for="email">Your Email:</label>
-        <input type="email" id="email" value="<?= htmlspecialchars(current_user()['email'] ?? '') ?>" disabled>
+        <input type="email" id="email" name="email" value="<?= htmlspecialchars($email ?? (current_user()['email'] ?? '')) ?>" required>
 
         <fieldset class="rating-fieldset">
             <legend>Rating</legend>
