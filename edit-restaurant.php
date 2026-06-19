@@ -42,7 +42,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cuisine_type = trim($_POST['cuisine_type'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $opening_hours = trim($_POST['opening_hours'] ?? '');
-    $image = trim($_POST['image'] ?? ''); // Assuming image path can be updated or kept
+    $image = trim($_POST['existing_image'] ?? '');
+    if (!empty($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+        $extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowed_extensions, true)) {
+            $errors[] = "Image must be a JPG, PNG, GIF, or WEBP file.";
+        } else {
+            $filename = uniqid('restaurant_', true) . '.' . $extension;
+            $target_path = __DIR__ . '/assets/images/' . $filename;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $target_path)) {
+                $image = $filename;
+            } else {
+                $errors[] = "Image upload failed.";
+            }
+        }
+    }
 
     // PHP Validation
     if (empty($restaurant_id)) {
@@ -122,8 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <?php if ($restaurant): ?>
-        <form action="edit-restaurant.php" method="POST">
+        <form action="edit-restaurant.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= htmlspecialchars($restaurant['id']) ?>">
+            <input type="hidden" name="existing_image" value="<?= htmlspecialchars($restaurant['image'] ?? '') ?>">
 
             <label for="name">Restaurant Name:</label>
             <input type="text" id="name" name="name" value="<?= htmlspecialchars($restaurant['name']) ?>" required>
@@ -150,8 +166,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="description">Description:</label>
             <textarea id="description" name="description" rows="5" required><?= htmlspecialchars($restaurant['description']) ?></textarea>
 
-            <label for="image">Image Filename:</label>
-            <input type="text" id="image" name="image" value="<?= htmlspecialchars($restaurant['image'] ?? '') ?>">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.webp">
 
             <div class="form-actions">
                 <button type="submit" class="button-primary">Update Restaurant</button>

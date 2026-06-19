@@ -39,7 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = trim($_POST['location'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $opening_hours = trim($_POST['opening_hours'] ?? '');
-    $image = trim($_POST['image'] ?? '');
+    $image = null;
+    if (!empty($_FILES['image']['name']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+        $extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowed_extensions, true)) {
+            $errors[] = 'Image must be a JPG, PNG, GIF, or WEBP file.';
+        } else {
+            $filename = uniqid('restaurant_', true) . '.' . $extension;
+            $target_path = __DIR__ . '/assets/images/' . $filename;
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $target_path)) {
+                $image = $filename;
+            } else {
+                $errors[] = 'Image upload failed.';
+            }
+        }
+    }
 
     if ($name === '' || $cuisine_type === '' || $location === '' || $description === '' || $opening_hours === '') {
         $errors[] = 'All fields except image are required.';
@@ -64,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="error-message"><?= htmlspecialchars($error) ?></p>
     <?php endforeach; ?>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <label>Name</label>
         <input name="name" required>
         <label>Cuisine Type</label>
@@ -106,8 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <label>Description</label>
         <textarea name="description" rows="5" required></textarea>
-        <label>Image Filename</label>
-        <input name="image">
+        <label>Upload Image</label>
+        <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp">
         <div class="form-actions">
             <button class="button-primary" type="submit">Save</button>
             <a class="button-secondary" href="index.php">Cancel</a>
