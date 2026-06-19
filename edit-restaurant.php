@@ -140,6 +140,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="edit-restaurant.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= htmlspecialchars($restaurant['id']) ?>">
             <input type="hidden" name="existing_image" value="<?= htmlspecialchars($restaurant['image'] ?? '') ?>">
+            <?php
+            $opening_day_from = '';
+            $opening_day_to = '';
+            $opening_time_from = '';
+            $opening_time_to = '';
+            $opening_hours_value = trim($restaurant['opening_hours'] ?? '');
+
+            if (preg_match('/^Daily:\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$/', $opening_hours_value, $matches)) {
+                $opening_day_from = 'Mon';
+                $opening_day_to = 'Sun';
+                $opening_time_from = $matches[1];
+                $opening_time_to = $matches[2];
+            } elseif (preg_match('/^([A-Za-z]{3})-([A-Za-z]{3}):\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$/', $opening_hours_value, $matches)) {
+                $opening_day_from = $matches[1];
+                $opening_day_to = $matches[2];
+                $opening_time_from = $matches[3];
+                $opening_time_to = $matches[4];
+            } elseif (preg_match('/^([A-Za-z]{3})-([A-Za-z]{3}),\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$/', $opening_hours_value, $matches)) {
+                $opening_day_from = $matches[1];
+                $opening_day_to = $matches[2];
+                $opening_time_from = $matches[3];
+                $opening_time_to = $matches[4];
+            }
+            ?>
 
             <label for="name">Restaurant Name:</label>
             <input type="text" id="name" name="name" value="<?= htmlspecialchars($restaurant['name']) ?>" required>
@@ -155,18 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="location">Location:</label>
             <input type="text" id="location" name="location" value="<?= htmlspecialchars($restaurant['location']) ?>" required>
 
-            <?php
-            $opening_day_from = '';
-            $opening_day_to = '';
-            $opening_time_from = '';
-            $opening_time_to = '';
-            if (!empty($restaurant['opening_hours']) && preg_match('/^([A-Za-z]{3})-([A-Za-z]{3}),\s*([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$/', $restaurant['opening_hours'], $matches)) {
-                $opening_day_from = $matches[1];
-                $opening_day_to = $matches[2];
-                $opening_time_from = $matches[3];
-                $opening_time_to = $matches[4];
-            }
-            ?>
             <label>Opening Hours</label>
             <div class="opening-hours-grid">
                 <select name="opening_day_from" required>
