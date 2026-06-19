@@ -25,17 +25,25 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 -- Sample Data for restaurants
 INSERT INTO restaurants (name, cuisine_type, location, description, opening_hours, image) VALUES
-('The Gourmet Haven', 'Fine Dining', '123 Main St, Anytown', 'A exquisite culinary experience with a focus on seasonal ingredients.', 'Mon-Sat: 18:00-22:00', 'gourmet_haven.jpg'),
-('Pasta Paradise', 'Italian', '456 Oak Ave, Anytown', 'Authentic Italian dishes in a cozy, family-friendly atmosphere.', 'Mon-Sun: 12:00-22:00', 'pasta_paradise.jpg'),
-('Spice Route', 'Indian', '789 Pine Ln, Anytown', 'Vibrant flavors of India with traditional and modern interpretations.', 'Tue-Sun: 17:00-23:00', 'spice_route.jpg'),
-('Burger Joint', 'American', '101 Elm St, Anytown', 'Classic American burgers, fries, and shakes.', 'Mon-Sun: 11:00-23:00', 'burger_joint.jpg'),
-('Sushi Express', 'Japanese', '202 Maple Dr, Anytown', 'Freshly prepared sushi and sashimi for dine-in or takeout.', 'Mon-Sat: 11:30-22:00', 'sushi_express.jpg');
+('Nasi Lemak Royale', 'Malay', 'Bukit Bintang, Kuala Lumpur', 'A modern take on classic Malaysian comfort food with fragrant coconut rice, sambal, and crispy fried chicken.', 'Daily: 07:00-22:30', 'nasi_lemak_royale.jpg'),
+('Mamak Street Kitchen', 'Malay', 'George Town, Penang', 'Casual late-night spot serving roti canai, nasi kandar, and teh tarik in a lively atmosphere.', 'Daily: 10:00-02:00', 'mamak_street_kitchen.jpg'),
+('Penang Wok House', 'Chinese', 'Jalan Macalister, Penang', 'Hawker-inspired dishes with Penang flavours, fresh seafood, and wok-fired noodles.', 'Mon-Sun: 11:00-22:00', 'penang_wok_house.jpg'),
+('Spice Bowl KL', 'Indian', 'Brickfields, Kuala Lumpur', 'Bold South Indian and Malaysian-Indian dishes, from banana leaf rice to masala curries.', 'Daily: 11:00-22:30', 'spice_bowl_kl.jpg'),
+('Borneo Bites', 'Kadazan-Dusun', 'Kota Kinabalu, Sabah', 'Sabah-inspired plates showcasing hinava, tuhau, and local river fish with a contemporary touch.', 'Tue-Sun: 12:00-21:30', 'borneo_bites.jpg'),
+('Melaka Heritage Café', 'Peranakan', 'Jonker Street, Melaka', 'A heritage café serving nyonya laksa, ayam pongteh, and kuih in a restored shophouse.', 'Daily: 09:00-21:00', 'melaka_heritage_cafe.jpg'),
+('Coastline Grill', 'Seafood', 'Tanjung Aru, Kota Kinabalu', 'Fresh grilled seafood, sambal sotong, and chilled drinks with a relaxed seaside view.', 'Daily: 12:00-23:00', 'coastline_grill.jpg'),
+('KL Garden Table', 'Fusion', 'Bangsar, Kuala Lumpur', 'A polished dining room blending Malaysian ingredients with contemporary plating and seasonal specials.', 'Mon-Sat: 18:00-23:00', 'kl_garden_table.jpg');
 
 -- Sample Data for reviews (ensure restaurant_id matches existing restaurant ids)
 INSERT INTO reviews (restaurant_id, restaurant_name, customer_name, email, rating, review) VALUES
-(1, 'The Gourmet Haven', 'Alice Wonderland', 'alice@example.com', 5, 'Absolutely divine food and impeccable service!'),
-(1, 'The Gourmet Haven', 'Bob Thebuilder', 'bob@example.com', 4, 'Great ambiance, food was a bit pricey but excellent.'),
-(2, 'Pasta Paradise', 'Charlie Chaplin', 'charlie@example.com', 4, 'Delicious pasta, felt like I was in Italy!'),
-(3, 'Spice Route', 'Diana Prince', 'diana@example.com', 5, 'The best Indian food I\'ve had in a long time. Highly recommend!'),
-(4, 'Burger Joint', 'Eve Adams', 'eve@example.com', 3, 'Decent burger, nothing extraordinary.'),
-(5, 'Sushi Express', 'Frank Sinatra', 'frank@example.com', 5, 'Fresh and tasty sushi, will definitely come back!');
+(1, 'Nasi Lemak Royale', 'Aina Rahman', 'aina@example.com', 5, 'The sambal was balanced and the chicken was crispy. Very satisfying for breakfast or dinner.'),
+(1, 'Nasi Lemak Royale', 'Farid Hassan', 'farid@example.com', 4, 'Great local flavour and generous portions. The rice fragrance really stood out.'),
+(2, 'Mamak Street Kitchen', 'Suresh Kumar', 'suresh@example.com', 5, 'Roti canai was flaky and the teh tarik was excellent. Perfect for a late-night meal.'),
+(2, 'Mamak Street Kitchen', 'Nurul Izzah', 'nurul@example.com', 4, 'Busy and lively, just like a proper mamak spot. Food came out fast.'),
+(3, 'Penang Wok House', 'Jason Lim', 'jason@example.com', 5, 'The char kway teow had proper wok hei and the seafood was fresh.'),
+(3, 'Penang Wok House', 'Mei Ling Tan', 'meiling@example.com', 4, 'Comforting flavours with a nice Penang-style kick. Would return for the noodles.'),
+(4, 'Spice Bowl KL', 'Priya Devi', 'priya@example.com', 5, 'Banana leaf rice was fragrant and the curries had a rich, authentic taste.'),
+(5, 'Borneo Bites', 'Edward Ling', 'edward@example.com', 5, 'Loved the Sabah-inspired menu. The tuhau side dish was memorable and unique.'),
+(6, 'Melaka Heritage Café', 'Shalini Perera', 'shalini@example.com', 4, 'Beautiful heritage setting and the nyonya laksa had a satisfying spicy depth.'),
+(7, 'Coastline Grill', 'Hafiz Amir', 'hafiz@example.com', 4, 'Fresh seafood and a relaxed atmosphere by the coast. The grilled squid was a highlight.'),
+(8, 'KL Garden Table', 'Amirah Zulkifli', 'amirah@example.com', 5, 'Modern plating, polished service, and clearly Malaysian flavours with a fine-dining touch.');
