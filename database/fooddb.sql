@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS fooddb;
 USE fooddb;
 
 DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS review_likes;
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS restaurants;
 
 CREATE TABLE IF NOT EXISTS restaurants (
@@ -14,16 +16,37 @@ CREATE TABLE IF NOT EXISTS restaurants (
     image VARCHAR(255) DEFAULT NULL
 );
 
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     restaurant_id INT NOT NULL,
     restaurant_name VARCHAR(100) NOT NULL,
+    user_id INT NULL,
     customer_name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
     rating INT NOT NULL,
     review TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS review_likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    review_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_review_like (review_id, user_id),
+    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Sample Data for restaurants

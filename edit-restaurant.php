@@ -1,5 +1,7 @@
 <?php
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
+require_admin();
 require_once 'includes/header.php';
 
 $restaurant = null;

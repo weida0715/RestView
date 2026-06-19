@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
 require_once 'includes/header.php';
 
 $restaurant = null;
@@ -16,8 +17,14 @@ if ($restaurant_id) {
 
         if ($restaurant) {
             // Fetch reviews for the restaurant
-            $stmt = $pdo->prepare("SELECT * FROM reviews WHERE restaurant_id = ? ORDER BY created_at DESC");
-            $stmt->execute([$restaurant_id]);
+            $stmt = $pdo->prepare("SELECT r.*, COUNT(l.id) AS like_count,
+                                   EXISTS(SELECT 1 FROM review_likes rl WHERE rl.review_id = r.id AND rl.user_id = ?) AS liked_by_me
+                                   FROM reviews r
+                                   LEFT JOIN review_likes l ON l.review_id = r.id
+                                   WHERE r.restaurant_id = ?
+                                   GROUP BY r.id
+                                   ORDER BY r.created_at DESC");
+            $stmt->execute([current_user()['id'] ?? 0, $restaurant_id]);
             $reviews = $stmt->fetchAll();
 
             // Calculate average rating
@@ -56,8 +63,12 @@ if (!$restaurant): ?>
             <?php endif; ?>
 
             <div class="actions">
-                <a href="submit-review.php?restaurant_id=<?= htmlspecialchars($restaurant['id']) ?>&restaurant_name=<?= urlencode($restaurant['name']) ?>" class="button-primary">Submit a Review</a>
-                <a href="edit-restaurant.php?id=<?= htmlspecialchars($restaurant['id']) ?>" class="button-secondary">Edit Restaurant</a>
+                <?php if (is_logged_in()): ?>
+                    <a href="submit-review.php?restaurant_id=<?= htmlspecialchars($restaurant['id']) ?>&restaurant_name=<?= urlencode($restaurant['name']) ?>" class="button-primary">Submit a Review</a>
+                <?php endif; ?>
+                <?php if (is_admin()): ?>
+                    <a href="edit-restaurant.php?id=<?= htmlspecialchars($restaurant['id']) ?>" class="button-secondary">Edit Restaurant</a>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -80,17 +91,31 @@ if (!$restaurant): ?>
                         </div>
                         <p class="review-email"><?= htmlspecialchars($review['email']) ?></p>
                         <p class="review-text"><?= nl2br(htmlspecialchars($review['review'])) ?></p>
-                        <form action="delete-review.php" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this review?');">
-                            <input type="hidden" name="review_id" value="<?= htmlspecialchars($review['id']) ?>">
-                            <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant['id']) ?>">
-                            <button type="submit" class="button-delete">Delete Review</button>
-                        </form>
+                        <div class="review-actions">
+                            <span class="rating-pill muted"><?= (int)$review['like_count'] ?> likes</span>
+                            <?php if (is_logged_in() && (current_user()['id'] ?? null) != $review['user_id']): ?>
+                                <form action="toggle-like.php" method="POST" class="inline-form">
+                                    <input type="hidden" name="review_id" value="<?= htmlspecialchars($review['id']) ?>">
+                                    <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant['id']) ?>">
+                                    <button type="submit" class="button-secondary"><?= !empty($review['liked_by_me']) ? 'Unlike' : 'Like' ?></button>
+                                </form>
+                            <?php endif; ?>
+                            <?php if (is_logged_in() && ((current_user()['id'] ?? null) == $review['user_id'] || is_admin())): ?>
+                                <form action="delete-review.php" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                    <input type="hidden" name="review_id" value="<?= htmlspecialchars($review['id']) ?>">
+                                    <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant['id']) ?>">
+                                    <button type="submit" class="button-delete">Delete Review</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="empty-state">
                     <p>No reviews for this restaurant yet.</p>
-                    <a href="submit-review.php?restaurant_id=<?= htmlspecialchars($restaurant['id']) ?>&restaurant_name=<?= urlencode($restaurant['name']) ?>" class="button-primary">Be the first to submit one</a>
+                    <?php if (is_logged_in()): ?>
+                        <a href="submit-review.php?restaurant_id=<?= htmlspecialchars($restaurant['id']) ?>&restaurant_name=<?= urlencode($restaurant['name']) ?>" class="button-primary">Be the first to submit one</a>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

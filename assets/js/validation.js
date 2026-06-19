@@ -1,16 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
     const reviewForm = document.getElementById('reviewForm');
     if (reviewForm) {
+        const review = document.getElementById('review_message');
+        const wordCount = document.getElementById('reviewWordCount');
+        const wordLimit = review ? parseInt(review.dataset.wordLimit || '500', 10) : 500;
+
+        const updateWordCount = () => {
+            const count = review.value.trim() ? review.value.trim().split(/\s+/).length : 0;
+            if (wordCount) {
+                wordCount.textContent = count;
+            }
+            review.classList.toggle('is-over-limit', count > wordLimit);
+        };
+
+        if (review) {
+            updateWordCount();
+            review.addEventListener('input', updateWordCount);
+        }
+
         reviewForm.addEventListener('submit', function(event) {
             let isValid = true;
 
             const customerName = document.getElementById('customer_name');
             const email = document.getElementById('email');
-            const rating = document.getElementById('rating');
-            const review = document.getElementById('review_message');
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const ratingFieldset = document.querySelector('.rating-fieldset');
 
             // Clear previous error messages
-            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            document.querySelectorAll('.field-error').forEach(el => el.remove());
 
             if (customerName.value.trim() === '') {
                 displayError(customerName, 'Customer name is required.');
@@ -25,13 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
 
-            if (rating.value === '') {
-                displayError(rating, 'Rating is required.');
+            if (!rating) {
+                displayError(ratingFieldset, 'Rating is required.');
                 isValid = false;
             }
 
+            const reviewCount = review.value.trim() ? review.value.trim().split(/\s+/).length : 0;
             if (review.value.trim() === '') {
                 displayError(review, 'Review message cannot be empty.');
+                isValid = false;
+            } else if (reviewCount > wordLimit) {
+                displayError(review, `Review message must be ${wordLimit} words or fewer.`);
                 isValid = false;
             }
 
@@ -42,10 +63,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayError(inputElement, message) {
+        if (!inputElement || !inputElement.parentNode) {
+            return;
+        }
         let errorElement = inputElement.nextElementSibling;
-        if (!errorElement || !errorElement.classList.contains('error-message')) {
+        if (!errorElement || !errorElement.classList.contains('field-error')) {
             errorElement = document.createElement('span');
-            errorElement.classList.add('error-message');
+            errorElement.classList.add('field-error');
             inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
         }
         errorElement.textContent = message;

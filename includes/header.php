@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/auth.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +21,13 @@
             <nav aria-label="Primary">
                 <ul>
                     <li><a href="index.php">Home</a></li>
+                    <?php if (is_logged_in()): ?>
+                        <?php if (is_admin()): ?><li><a href="add-restaurant.php">Add Restaurant</a></li><?php endif; ?>
+                        <li><a href="logout.php">Logout</a></li>
+                    <?php else: ?>
+                        <li><a href="login.php">Login</a></li>
+                        <li><a href="register.php">Register</a></li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>

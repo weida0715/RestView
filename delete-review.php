@@ -1,5 +1,7 @@
 <?php
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
+require_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $review_id = $_POST['review_id'] ?? null;
@@ -7,6 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($review_id && $restaurant_id) {
         try {
+            $user = current_user();
+            $stmt = $pdo->prepare("SELECT user_id FROM reviews WHERE id = ?");
+            $stmt->execute([$review_id]);
+            $review = $stmt->fetch();
+            if (!$review || (!$user || ($review['user_id'] != $user['id'] && !is_admin()))) {
+                header("Location: restaurant-details.php?id=" . urlencode($restaurant_id) . "&status=forbidden");
+                exit;
+            }
             $stmt = $pdo->prepare("DELETE FROM reviews WHERE id = ?");
             $stmt->execute([$review_id]);
 

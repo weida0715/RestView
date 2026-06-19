@@ -356,6 +356,7 @@ form button:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger min-width */
     gap: 1.5rem; /* Increased gap */
+    margin: 1.5rem 0 2rem;
 }
 
 .restaurant-card {
@@ -618,6 +619,92 @@ form label {
     padding: 2rem;
 }
 
+.field-error {
+    display: block;
+    margin-top: 0.35rem;
+    color: #fca5a5;
+    font-size: 0.9rem;
+}
+
+.field-hint {
+    margin: -0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.is-over-limit {
+    border-color: #f87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.18);
+}
+
+.rating-fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.rating-fieldset legend {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin-bottom: 0.5rem;
+}
+
+.star-rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+.star-rating input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    font-size: 0;
+    line-height: 1;
+    color: rgba(160, 160, 176, 0.4);
+}
+
+.star-rating label::before {
+    content: '★';
+    font-size: 1.8rem;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: var(--accent);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.pagination-link {
+    min-width: 2.5rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    color: var(--text);
+    text-align: center;
+}
+
+.pagination-link.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--text-strong);
+    border-color: transparent;
+}
+
 .form-page-shell form {
     display: grid;
     gap: 1rem; /* Increased gap */
@@ -687,6 +774,9 @@ footer {
     }
     .detail-hero-content {
         padding: 1.5rem;
+    }
+    .restaurant-list {
+        margin: 1rem 0 1.5rem;
     }
 }
 

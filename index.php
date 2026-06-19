@@ -5,6 +5,12 @@ require_once 'includes/header.php';
 $search_term = $_GET['search'] ?? '';
 $cuisine_filter = $_GET['cuisine'] ?? '';
 $sort_by = $_GET['sort'] ?? '';
+$page_size = (int)($_GET['page_size'] ?? 20);
+$allowed_page_sizes = [8, 12, 20];
+if (!in_array($page_size, $allowed_page_sizes, true)) {
+    $page_size = 20;
+}
+$page = max(1, (int)($_GET['page'] ?? 1));
 
 // Fetch distinct cuisine types for the filter dropdown
 $cuisine_types = [];
@@ -46,11 +52,44 @@ if ($sort_by === 'name_asc') {
     $sql .= " ORDER BY r.name ASC"; // Default sort
 }
 
+$count_sql = "SELECT COUNT(DISTINCT r.id) AS total
+              FROM restaurants r
+              LEFT JOIN reviews rev ON r.id = rev.restaurant_id
+              WHERE 1=1";
+$count_params = [];
+
+if (!empty($search_term)) {
+    $count_sql .= " AND r.name LIKE ?";
+    $count_params[] = '%' . $search_term . '%';
+}
+
+if (!empty($cuisine_filter)) {
+    $count_sql .= " AND r.cuisine_type = ?";
+    $count_params[] = $cuisine_filter;
+}
+
+$count_sql .= " ";
+
+$total_restaurants = 0;
+$total_pages = 1;
+$offset = ($page - 1) * $page_size;
+
+$sql .= " LIMIT $page_size OFFSET $offset";
+
 $restaurants = [];
 try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $restaurants = $stmt->fetchAll();
+
+    $stmt = $pdo->prepare($count_sql);
+    $stmt->execute($count_params);
+    $total_restaurants = (int)($stmt->fetchColumn() ?: 0);
+    $total_pages = max(1, (int)ceil($total_restaurants / $page_size));
+    if ($page > $total_pages) {
+        $page = $total_pages;
+        $offset = ($page - 1) * $page_size;
+    }
 } catch (PDOException $e) {
     echo "<p class=\"error-message\">Error fetching restaurants: " . htmlspecialchars($e->getMessage()) . "</p>";
 }
@@ -129,6 +168,40 @@ try {
         <p>No restaurants found.</p>
     <?php endif; ?>
     </div>
+
+    <?php if ($total_pages > 1): ?>
+        <nav class="pagination" aria-label="Restaurant pages">
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a
+                    class="pagination-link <?= $i === $page ? 'active' : '' ?>"
+                    href="?<?= http_build_query([
+                        'search' => $search_term,
+                        'cuisine' => $cuisine_filter,
+                        'sort' => $sort_by,
+                        'page_size' => $page_size,
+                        'page' => $i,
+                    ]) ?>"
+                ><?= $i ?></a>
+            <?php endfor; ?>
+        </nav>
+    <?php endif; ?>
 </section>
+
+<script>
+(function () {
+    const sizes = [
+        { max: 767, value: 8 },
+        { max: 991, value: 12 },
+        { max: Infinity, value: 20 }
+    ];
+    const desired = sizes.find(rule => window.innerWidth <= rule.max).value;
+    const url = new URL(window.location.href);
+    if (String(desired) !== url.searchParams.get('page_size')) {
+        url.searchParams.set('page_size', desired);
+        url.searchParams.set('page', '1');
+        window.location.replace(url.toString());
+    }
+})();
+</script>
 
 <?php require_once 'includes/footer.php'; ?>
