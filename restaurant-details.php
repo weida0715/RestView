@@ -97,14 +97,18 @@ if (!$restaurant): ?>
                                 <form action="toggle-like.php" method="POST" class="inline-form">
                                     <input type="hidden" name="review_id" value="<?= htmlspecialchars($review['id']) ?>">
                                     <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant['id']) ?>">
-                                    <button type="submit" class="button-secondary"><?= !empty($review['liked_by_me']) ? 'Unlike' : 'Like' ?></button>
+                                    <button type="submit" class="icon-button like-button" aria-label="<?= !empty($review['liked_by_me']) ? 'Unlike review' : 'Like review' ?>">
+                                        <span aria-hidden="true"><?= !empty($review['liked_by_me']) ? '👍' : '👍' ?></span>
+                                    </button>
                                 </form>
                             <?php endif; ?>
                             <?php if (is_logged_in() && ((current_user()['id'] ?? null) == $review['user_id'] || is_admin())): ?>
                                 <form action="delete-review.php" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this review?');">
                                     <input type="hidden" name="review_id" value="<?= htmlspecialchars($review['id']) ?>">
                                     <input type="hidden" name="restaurant_id" value="<?= htmlspecialchars($restaurant['id']) ?>">
-                                    <button type="submit" class="button-delete">Delete Review</button>
+                                    <button type="submit" class="icon-button delete-button" aria-label="Delete review">
+                                        <span aria-hidden="true">🗑️</span>
+                                    </button>
                                 </form>
                             <?php endif; ?>
                         </div>

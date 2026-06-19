@@ -538,6 +538,14 @@ form button:hover {
     gap: 0.75rem;
 }
 
+.review-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
 .review-card:last-child {
     margin-bottom: 0;
 }
@@ -571,6 +579,38 @@ form button:hover {
     padding: 0;
     background: transparent;
     box-shadow: none;
+}
+
+.icon-button {
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    border-radius: 999px;
+    display: inline-grid;
+    place-items: center;
+    font-size: 1.05rem;
+}
+
+.like-button {
+    color: #0f766e;
+    background: rgba(45, 212, 191, 0.15);
+    border: 1px solid rgba(45, 212, 191, 0.25);
+}
+
+.delete-button {
+    color: #b91c1c;
+    background: rgba(248, 113, 113, 0.16);
+    border: 1px solid rgba(248, 113, 113, 0.28);
+}
+
+.opening-hours-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.opening-hours-grid input[type="hidden"] {
+    display: none;
 }
 
 .empty-state {
@@ -794,6 +834,9 @@ footer {
     .button-primary, form button, .button-secondary, .button-delete {
         width: 100%;
     }
+    .icon-button {
+        width: 2.6rem;
+    }
     .card-topline,
     .actions,
     .form-actions,
@@ -801,6 +844,12 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+    }
+    .review-actions {
+        justify-content: flex-start;
+    }
+    .opening-hours-grid {
+        grid-template-columns: 1fr;
     }
     .restaurant-card-content {
         padding: 1rem;
