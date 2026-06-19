@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS restaurants;
+
 CREATE DATABASE IF NOT EXISTS fooddb;
 USE fooddb;
 
@@ -25,14 +28,14 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 -- Sample Data for restaurants
 INSERT INTO restaurants (name, cuisine_type, location, description, opening_hours, image) VALUES
-('Nasi Lemak Royale', 'Malay', 'Bukit Bintang, Kuala Lumpur', 'A modern take on classic Malaysian comfort food with fragrant coconut rice, sambal, and crispy fried chicken.', 'Daily: 07:00-22:30', 'nasi_lemak_royale.jpg'),
-('Mamak Street Kitchen', 'Malay', 'George Town, Penang', 'Casual late-night spot serving roti canai, nasi kandar, and teh tarik in a lively atmosphere.', 'Daily: 10:00-02:00', 'mamak_street_kitchen.jpg'),
-('Penang Wok House', 'Chinese', 'Jalan Macalister, Penang', 'Hawker-inspired dishes with Penang flavours, fresh seafood, and wok-fired noodles.', 'Mon-Sun: 11:00-22:00', 'penang_wok_house.jpg'),
-('Spice Bowl KL', 'Indian', 'Brickfields, Kuala Lumpur', 'Bold South Indian and Malaysian-Indian dishes, from banana leaf rice to masala curries.', 'Daily: 11:00-22:30', 'spice_bowl_kl.jpg'),
-('Borneo Bites', 'Kadazan-Dusun', 'Kota Kinabalu, Sabah', 'Sabah-inspired plates showcasing hinava, tuhau, and local river fish with a contemporary touch.', 'Tue-Sun: 12:00-21:30', 'borneo_bites.jpg'),
-('Melaka Heritage Café', 'Peranakan', 'Jonker Street, Melaka', 'A heritage café serving nyonya laksa, ayam pongteh, and kuih in a restored shophouse.', 'Daily: 09:00-21:00', 'melaka_heritage_cafe.jpg'),
-('Coastline Grill', 'Seafood', 'Tanjung Aru, Kota Kinabalu', 'Fresh grilled seafood, sambal sotong, and chilled drinks with a relaxed seaside view.', 'Daily: 12:00-23:00', 'coastline_grill.jpg'),
-('KL Garden Table', 'Fusion', 'Bangsar, Kuala Lumpur', 'A polished dining room blending Malaysian ingredients with contemporary plating and seasonal specials.', 'Mon-Sat: 18:00-23:00', 'kl_garden_table.jpg');
+('Nasi Lemak Royale', 'Malay', 'Bukit Bintang, Kuala Lumpur', 'A modern take on classic Malaysian comfort food with fragrant coconut rice, sambal, and crispy fried chicken.', 'Daily: 07:00-22:30', '00.jpg'),
+('Mamak Street Kitchen', 'Malay', 'George Town, Penang', 'Casual late-night spot serving roti canai, nasi kandar, and teh tarik in a lively atmosphere.', 'Daily: 10:00-02:00', '01.jpg'),
+('Penang Wok House', 'Chinese', 'Jalan Macalister, Penang', 'Hawker-inspired dishes with Penang flavours, fresh seafood, and wok-fired noodles.', 'Mon-Sun: 11:00-22:00', '02.jpg'),
+('Spice Bowl KL', 'Indian', 'Brickfields, Kuala Lumpur', 'Bold South Indian and Malaysian-Indian dishes, from banana leaf rice to masala curries.', 'Daily: 11:00-22:30', '10.jpg'),
+('Borneo Bites', 'Kadazan-Dusun', 'Kota Kinabalu, Sabah', 'Sabah-inspired plates showcasing hinava, tuhau, and local river fish with a contemporary touch.', 'Tue-Sun: 12:00-21:30', '11.jpg'),
+('Melaka Heritage Café', 'Peranakan', 'Jonker Street, Melaka', 'A heritage café serving nyonya laksa, ayam pongteh, and kuih in a restored shophouse.', 'Daily: 09:00-21:00', '12.jpg'),
+('Coastline Grill', 'Seafood', 'Tanjung Aru, Kota Kinabalu', 'Fresh grilled seafood, sambal sotong, and chilled drinks with a relaxed seaside view.', 'Daily: 12:00-23:00', '20.jpg'),
+('KL Garden Table', 'Fusion', 'Bangsar, Kuala Lumpur', 'A polished dining room blending Malaysian ingredients with contemporary plating and seasonal specials.', 'Mon-Sat: 18:00-23:00', '21.jpg');
 
 -- Sample Data for reviews (ensure restaurant_id matches existing restaurant ids)
 INSERT INTO reviews (restaurant_id, restaurant_name, customer_name, email, rating, review) VALUES
