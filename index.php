@@ -58,44 +58,43 @@ try {
 
 <section class="hero-panel">
     <div class="hero-copy">
-        <p class="eyebrow">Restaurant discovery made simple</p>
-        <h2>Find your next favorite place with a cleaner, faster browse.</h2>
-        <p>Search by name, narrow by cuisine, and sort by rating or alphabetically without losing the simple flow of the original app.</p>
+        <p class="eyebrow">Discover your next culinary adventure</p>
+        <h2>Explore Top-Rated Restaurants Near You</h2>
+        <p>Find the perfect spot for any craving with our curated selection of eateries.</p>
     </div>
-</section>
+    <div class="hero-search-form">
+        <form action="index.php" method="GET" class="search-form">
+            <div class="field-group field-search">
+                <label for="search" class="sr-only">Search</label>
+                <input type="text" id="search" name="search" placeholder="Search by restaurant name..." value="<?= htmlspecialchars($search_term) ?>">
+            </div>
 
-<section class="search-filter-section">
-    <form action="index.php" method="GET" class="search-form">
-        <div class="field-group field-search">
-            <label for="search">Search</label>
-            <input type="text" id="search" name="search" placeholder="Search by restaurant name..." value="<?= htmlspecialchars($search_term) ?>">
-        </div>
+            <div class="field-group">
+                <label for="cuisine" class="sr-only">Cuisine</label>
+                <select name="cuisine" id="cuisine">
+                    <option value="">All Cuisines</option>
+                    <?php foreach ($cuisine_types as $cuisine): ?>
+                        <option value="<?= htmlspecialchars($cuisine) ?>" <?= ($cuisine_filter === $cuisine) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($cuisine) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <div class="field-group">
-            <label for="cuisine">Cuisine</label>
-            <select name="cuisine" id="cuisine">
-                <option value="">All Cuisines</option>
-                <?php foreach ($cuisine_types as $cuisine): ?>
-                    <option value="<?= htmlspecialchars($cuisine) ?>" <?= ($cuisine_filter === $cuisine) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($cuisine) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+            <div class="field-group">
+                <label for="sort" class="sr-only">Sort</label>
+                <select name="sort" id="sort">
+                    <option value="">Sort By</option>
+                    <option value="name_asc" <?= ($sort_by === 'name_asc') ? 'selected' : '' ?>>Name (A-Z)</option>
+                    <option value="name_desc" <?= ($sort_by === 'name_desc') ? 'selected' : '' ?>>Name (Z-A)</option>
+                    <option value="rating_desc" <?= ($sort_by === 'rating_desc') ? 'selected' : '' ?>>Rating (High to Low)</option>
+                    <option value="rating_asc" <?= ($sort_by === 'rating_asc') ? 'selected' : '' ?>>Rating (Low to High)</option>
+                </select>
+            </div>
 
-        <div class="field-group">
-            <label for="sort">Sort</label>
-            <select name="sort" id="sort">
-                <option value="">Sort By</option>
-                <option value="name_asc" <?= ($sort_by === 'name_asc') ? 'selected' : '' ?>>Name (A-Z)</option>
-                <option value="name_desc" <?= ($sort_by === 'name_desc') ? 'selected' : '' ?>>Name (Z-A)</option>
-                <option value="rating_desc" <?= ($sort_by === 'rating_desc') ? 'selected' : '' ?>>Rating (High to Low)</option>
-                <option value="rating_asc" <?= ($sort_by === 'rating_asc') ? 'selected' : '' ?>>Rating (Low to High)</option>
-            </select>
-        </div>
-
-        <button type="submit" class="button-primary">Apply Filters</button>
-    </form>
+            <button type="submit" class="button-primary">Search</button>
+        </form>
+    </div>
 </section>
 
 <section class="listings-section">
@@ -109,7 +108,7 @@ try {
         <?php foreach ($restaurants as $restaurant): ?>
             <a href="restaurant-details.php?id=<?= htmlspecialchars($restaurant['id']) ?>" class="restaurant-card">
                 <div class="restaurant-card-media">
-                    <img src="assets/images/<?= htmlspecialchars($restaurant['image'] ?? 'default.jpg') ?>" alt="<?= htmlspecialchars($restaurant['name']) ?>">
+                    <img src="assets/images/<?= htmlspecialchars($restaurant['image'] ?? 'modern-dark-placeholder.jpg') ?>" alt="<?= htmlspecialchars($restaurant['name']) ?>">
                 </div>
                 <div class="restaurant-card-content">
                     <div class="card-topline">
