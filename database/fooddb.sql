@@ -1,8 +1,8 @@
 CREATE DATABASE IF NOT EXISTS fooddb;
 USE fooddb;
 
-DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS review_likes;
+DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS restaurants;
 
