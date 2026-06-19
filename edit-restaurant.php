@@ -13,6 +13,7 @@ $cuisine_options = [
     'Indian',
     'Mamak',
     'Western',
+    'Fusion',
     'Japanese',
     'Korean',
     'Thai',
@@ -21,6 +22,8 @@ $cuisine_options = [
     'Dessert',
     'Cafe',
     'Seafood',
+    'Kadazan-Dusun',
+    'Peranakan',
     'Other',
 ];
 $day_options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -171,6 +174,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="cuisine_type">Cuisine Type:</label>
             <select id="cuisine_type" name="cuisine_type" required>
                 <option value="">Select cuisine</option>
+                <?php if ($restaurant['cuisine_type'] && !in_array($restaurant['cuisine_type'], $cuisine_options, true)): ?>
+                    <option value="<?= htmlspecialchars($restaurant['cuisine_type']) ?>" selected><?= htmlspecialchars($restaurant['cuisine_type']) ?></option>
+                <?php endif; ?>
                 <?php foreach ($cuisine_options as $option): ?>
                     <option value="<?= htmlspecialchars($option) ?>" <?= $restaurant['cuisine_type'] === $option ? 'selected' : '' ?>><?= htmlspecialchars($option) ?></option>
                 <?php endforeach; ?>
@@ -213,6 +219,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label for="image">Upload Image</label>
             <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.gif,.webp">
+            <?php if (!empty($restaurant['image'])): ?>
+                <div class="current-image-preview">
+                    <p class="field-hint">Current image</p>
+                    <img src="assets/images/<?= htmlspecialchars($restaurant['image']) ?>" alt="<?= htmlspecialchars($restaurant['name']) ?>" class="preview-image">
+                </div>
+            <?php endif; ?>
 
             <div class="form-actions">
                 <button type="submit" class="button-primary">Update Restaurant</button>

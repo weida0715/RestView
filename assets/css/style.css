@@ -633,6 +633,20 @@ form button:hover {
     display: none;
 }
 
+.current-image-preview {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.preview-image {
+    width: 180px;
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+}
+
 .empty-state {
     display: grid;
     gap: 1rem;
