@@ -233,7 +233,7 @@ main {
     gap: 1rem;
     flex-wrap: nowrap;
     background: var(--panel); /* Use panel background for search form */
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     border: 1px solid var(--line);
