@@ -15,13 +15,11 @@
     --radius-sm: 8px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 * { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif; /* Modern sans-serif font */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
     color: var(--text);
     background: var(--bg);
